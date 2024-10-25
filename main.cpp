@@ -13,7 +13,7 @@ int sequentialSearch(vector<T>arr , int target){
     for (int i = 0; i < arr.size(); ++i) {
         if(arr[i]==target){
             index=(i+1);
-            return i;
+            return index;
         }
     }
     return index;
