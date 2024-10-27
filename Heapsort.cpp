@@ -35,7 +35,17 @@ private:
             heapifyDown(i);
         }
     }
-
+    void heapify(int index) {
+        while(index>0){
+            int parent = (index-1)/2;
+            if(H[index]>H[parent]){
+                swap(H[index] , H[parent]);
+                index = parent;
+            }
+            else
+                break;
+        }
+    }
 public:
     HeapSort(vector<int>& arr) : H(arr), heapsize(arr.size()) {
         buildMaxHeap();
@@ -50,6 +60,28 @@ public:
         heapsize--;                          // Reduce heap size
         heapifyDown(0);                  // Heapify root
         return maxVal;
+    }
+    int extractMin() {
+        if (heapsize <= 0) return -1;
+        int minIndex = heapsize / 2;
+        int minValue = H[minIndex];
+
+        for (int i = minIndex + 1; i < heapsize; i++) {
+            if (H[i] < minValue) {
+                minValue = H[i];
+                minIndex = i;
+            }
+        }
+
+        swap(H[minIndex], H[heapsize - 1]);
+        heapsize--;
+
+        return minValue;
+    }
+    void insert(int x){
+        H.push_back(x);
+        heapsize++;
+        heapify(heapsize-1);
     }
 };
 
@@ -80,9 +112,21 @@ int main() {
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
+    HeapSort h(arr);
 
     cout << "Unsorted array: ";
     printArray(arr);
+
+    cout << "Enter a new element to insert: ";
+    int val;
+    cin >> val;
+    h.insert(val);
+
+    cout << "Heap after insertion: ";
+    printArray(arr);
+
+    cout<<"Minimum value:";
+    cout<<h.extractMin()<<endl;
 
     heapSort(arr);
 
